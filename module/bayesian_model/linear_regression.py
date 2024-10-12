@@ -3,9 +3,9 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from link import Identity
-from link._interface import Link
-from _interface import BayesianInterface
+from .link import Identity
+from .link._interface import Link
+from ._interface import BayesianInterface
 
 
 class BayesianNormalRegression(BayesianInterface):
@@ -19,7 +19,7 @@ class BayesianNormalRegression(BayesianInterface):
         X: np.ndarray,
         y: np.ndarray,
         m: np.ndarray,
-        q: np.ndarray,
+        p: np.ndarray,
         r: float,
         scale: Optional[float] = None,
         **kwargs,
@@ -28,9 +28,9 @@ class BayesianNormalRegression(BayesianInterface):
         weights[y == 0] = 1 / r
 
         return (
-            self._loss(beta, X, y, m, q, r, **dict({"scale": scale}, **kwargs))
+            self._loss(beta, X, y, m, p, r, **dict({"scale": scale}, **kwargs))
             - 0.5 * np.sum(np.log(weights))
-            + 0.5 * (np.sum(np.log(1 / q)) + len(q) * np.log(2 * np.pi))
+            + 0.5 * (np.sum(np.log(1 / p)) + len(p) * np.log(2 * np.pi))
         )
 
     def _loss(
@@ -252,15 +252,14 @@ class BayesianNormalRegression(BayesianInterface):
         X: np.ndarray,
         y: np.ndarray,
         m: np.ndarray,
-        q: np.ndarray,
+        p: np.ndarray,
         **kwargs,
     ) -> tuple:
         return (
             X,
             y,
             m,
-            q,
-            kwargs.get("sub_sample_rate", 1),
+            p,
             kwargs.get("scale"),
         )
 

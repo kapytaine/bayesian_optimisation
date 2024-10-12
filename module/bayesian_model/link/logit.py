@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.special import expit, logit
 
-from _interface import Link
+from ._interface import Link
 
 
 class Logit(Link):

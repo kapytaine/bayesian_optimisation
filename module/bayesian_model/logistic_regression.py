@@ -3,9 +3,9 @@ import pandas as pd
 from sklearn.metrics import log_loss
 
 
-from link import Logit
-from link._interface import Link
-from _interface import BayesianInterface
+from .link import Logit
+from .link._interface import Link
+from ._interface import BayesianInterface
 
 
 class BayesianLogisticRegression(BayesianInterface):
