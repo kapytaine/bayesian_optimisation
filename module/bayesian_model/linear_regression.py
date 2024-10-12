@@ -13,26 +13,6 @@ class BayesianNormalRegression(BayesianInterface):
         self.link = link
         super().__init__(**kwargs)
 
-    def _likelihood(
-        self,
-        beta: np.ndarray,
-        X: np.ndarray,
-        y: np.ndarray,
-        m: np.ndarray,
-        p: np.ndarray,
-        r: float,
-        scale: Optional[float] = None,
-        **kwargs,
-    ) -> float:
-        weights = np.ones(y.shape)
-        weights[y == 0] = 1 / r
-
-        return (
-            self._loss(beta, X, y, m, p, r, **dict({"scale": scale}, **kwargs))
-            - 0.5 * np.sum(np.log(weights))
-            + 0.5 * (np.sum(np.log(1 / p)) + len(p) * np.log(2 * np.pi))
-        )
-
     def _loss(
         self,
         beta: np.ndarray,
@@ -67,6 +47,8 @@ class BayesianNormalRegression(BayesianInterface):
                     p,
                 )
             )
+            - 0.5 * np.sum(np.log(weights))
+            + 0.5 * (np.sum(np.log(1 / p)) + len(p) * np.log(2 * np.pi))
         )
         return loss
 
