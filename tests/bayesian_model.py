@@ -51,7 +51,7 @@ class MockBayesianNormalRegression(BayesianNormalRegression):
         *args,
         **kwargs,
     ) -> tuple:
-        kwargs["scale"] = 1
+        kwargs["scale"] = 2
         return super()._get_args(*args, **kwargs)
 
 

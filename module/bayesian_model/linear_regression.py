@@ -38,7 +38,7 @@ class BayesianNormalRegression(BayesianInterface):
                     1 / 2 * np.divide(np.power(np.subtract(y, y_pred), 2), scale),
                 )
             )
-            + 0.5 * len(y) * (np.log(scale) + np.log(2 * np.pi))
+            + 0.5 * np.sum(weights) * (np.log(scale) + np.log(2 * np.pi))
             + np.sum(
                 1
                 / 2
@@ -47,7 +47,6 @@ class BayesianNormalRegression(BayesianInterface):
                     p,
                 )
             )
-            - 0.5 * np.sum(np.log(weights))
             + 0.5 * (np.sum(np.log(1 / p)) + len(p) * np.log(2 * np.pi))
         )
         return loss
